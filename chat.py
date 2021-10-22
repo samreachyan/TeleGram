@@ -56,8 +56,11 @@ def send_sms():
             sys.exit()
         try:
             print(gr+"[+] Sending Message to:", user['name'])
+
+            # Send Text Message & Send Media Message [Video / Audio / File]
             client.send_message(
-                receiver, message.format(user['name']))
+                receiver, message.format(user['name']), file='./sakcode.png')
+
             print(gr+"[+] Waiting {} seconds".format(SLEEP_TIME))
             time.sleep(SLEEP_TIME)
         except PeerFloodError:

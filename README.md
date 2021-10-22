@@ -72,3 +72,16 @@ python3 smsbot.py [filename]
 ```
 python3 smsbot.py members.csv
 ```
+
+- សម្រាប់លោកអ្នកចង់ផ្ញើសារទៅអ្នកប្រើប្រាស់ជាមួយ file [Video \ Audio \ File] សូមចុចដូចខាងក្រោម
+  ទៅកែកូដនៅក្នុង `chat.py` នៅក្នុង `ជួរទី 62` អ្នកឃើញពាក្យ `file='./[ឈ្មោះឯកសារនោះ]'`
+
+```
+62:   receiver, message.format(user['name']), file='./sakcode.png')
+
+# អ្នកអាចប្តូរទៅជា ./video.mp4 ឬ ./audio.mp3 ដែលមាន video/audio នៅក្នុង folder ជាមួយគ្នា
+```
+
+```
+python3 chat.py members.csv
+```
