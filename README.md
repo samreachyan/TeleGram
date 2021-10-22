@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="https://raw.githubusercontent.com/th3unkn0n/TeleGram-Scraper/master/.image/20191203_205322.jpg" width="470" height="150">
+  <img src="https://raw.githubusercontent.com/samreachyan /TeleGram/master/.image/20191203_205322.jpg" width="470" height="150">
 </p>
 
 <p align="center"><img src="https://img.shields.io/badge/Version-3.1-brightgreen"></p>
@@ -12,44 +12,63 @@
   </a>
 </p>
 <p align="center">
-  Telegram Group Scrapper
+  ការប្រើប្រាស់ API តេលេក្រាមដើម្បីយកទិន្នន័យធ្វើការងារ
 </p>
 <p align="center">
 </p>
 
 ---
 
-## • API Setup
-* Go to http://my.telegram.org  and log in.
-* Click on API development tools and fill the required fields.
-* put app name you want & select other in platform Example :
-* copy "api_id" & "api_hash" after clicking create app ( will be used in setup.py )
+## API Setup
 
-## • How To Install and Use
+- ចុចចូលវេបសាយនេះ [http://my.telegram.org](http://my.telegram.org) និង log in ជាមួយលេខទូរសព្ទរបស់លោកអ្នក ។
+- បំពេញពត៌មានចាំបាច់សម្រាប់តេលេក្រាម និង ជ្រើសយក website
+- លោកអ្នកនឹងទទួលឃើញ api_id, api_hash ។​ ចូលចម្លងវាដើម្បីយកមកប្រើប្រាស់ក្នុងការប្រើប្រាស់ក្នុង កូដរបស់យើង (setup.py) ។​
 
-`$ pkg install -y git python`
+## How To Install and Use
 
-`$ git clone https://github.com/th3unkn0n/TeleGram-Scraper.git`
+```
+git clone https://github.com/samreachyan/teleGram.git
+```
 
-`$ cd TeleGram-Scraper`
+អ្នកត្រូវទាញយក [Python](https://www.python.org/downloads/) តាមតំណភ្ជាប់នេះ រួចដំឡើងវាតាមដំណាក់កាល។
 
-* Install requierments
+- លោកអ្នកត្រូវដំឡើង Library មួយចំនួនដែលពាក់ព័ន្ធ
 
-`$ python3 setup.py -i`
+```
+cd TeleGram
+python3 setup.py -i
+```
 
-* setup configration file ( apiID, apiHASH )
+- ធ្វើបច្ចុប្បន្នភាពកម្មវិធី
 
-`$ python3 setup.py -c`
+```
+python3 setup.py -u
+```
 
-* To Genrate User Data
+- លោកអ្នកត្រូវបញ្ចូល api_id,​ api_hash និង លេខទូរសព្ទរបស់លោកអ្នកដើម្បីចាប់ផ្តើមវា ។
 
-`$ python3 scraper.py`
+```
+python3 setup.py -c
+```
 
-* ( members.csv is default if you changed name use it )
-* Send Bulk sms To Collected Data 
+- ក្រោយពេលលោកអ្នកបានដំឡើងចប់អស់ហើយ លោកអ្នកអាចទាញយកទិន្នន័យអ្នកប្រើប្រាស់ ក្នុង Group ឬ ​Channel បាន។
+  **_ត្រូវចំណាំ៖ សម្រាប់ Group ជាក្រុមណាដែលសមាជិកអាច Chat បានដោយសេរីឬក្រុមណាដែលអ្នកជា admin។ សម្រាប់ Channel អ្នកត្រូវតែជា admin ទើបអាចទាញយកទិន្នន័យអ្នកប្រើប្រាស់បាន។_**
 
-`$ python3 smsbot.py members.csv`
+```
+python3 scraper.py
+```
 
-* Update Tool
+- ពេលទាញយកទិន្នន័យអ្នកប្រើប្រាស់អ្នកអាច រក្សាទុកក្នុង members.cvs (ក្រោយពេលអ្នកទាញយកឈ្មោះហើយ អាចប្តូរឈ្មោះ file បាន)
 
-`$ python3 setup.py -u`
+- ដើម្បីអ្នកអាចផ្ញើសារទៅអ្នកប្រើប្រាស់ច្រើនអ្នកក្នុងពេលតែមួយ អ្នកត្រូវពិនិត្យមើល file ប្រភេទ csv ។ file នេះជាពត៌មានអ្នកប្រើប្រាស់អ្នកបានទាញយកពី Group or Channel ។ File នេះអ្នកអាចកែឬលុបចេញអ្នកប្រើប្រាស់ណាមួយក៏បានជាមួយកម្មវិធី Microsoft Excel (Open with Excel) ។
+
+```
+python3 smsbot.py [filename]
+```
+
+ឧទាហរណ៍៖ ផ្ញើអត្ថបទសារទៅ អ្នកប្រើប្រាស់ទាំងអស់ក្នុង `members.csv`
+
+```
+python3 smsbot.py members.csv
+```
