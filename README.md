@@ -22,12 +22,12 @@
 ## API Setup
 
 - ចុចចូលវេបសាយនេះ [http://my.telegram.org](http://my.telegram.org) និង log in ជាមួយលេខទូរសព្ទរបស់លោកអ្នក ។
-- បំពេញពត៌មានចាំបាច់សម្រាប់តេលេក្រាម និង ជ្រើសយក website
-- លោកអ្នកនឹងទទួលឃើញ api_id, api_hash ។​ ចូលចម្លងវាដើម្បីយកមកប្រើប្រាស់ក្នុងការប្រើប្រាស់ក្នុង កូដរបស់យើង (setup.py) ។​
+- បំពេញពត៌មានចាំបាច់សម្រាប់តេលេក្រាម និង ជ្រើសយកតាម website ដែលបានកំណត់ ។
+- លោកអ្នកនឹងទទួលឃើញ `api_id`, `api_hash` ។​ ចូលចម្លងវាដើម្បីយកមកប្រើប្រាស់ក្នុងការប្រើប្រាស់ក្នុង កូដរបស់យើង `setup.py` ។​
 
 ## How To Install and Use
 
-```
+```py
 git clone https://github.com/samreachyan/teleGram.git
 ```
 
@@ -35,20 +35,20 @@ git clone https://github.com/samreachyan/teleGram.git
 
 - លោកអ្នកត្រូវដំឡើង Library មួយចំនួនដែលពាក់ព័ន្ធ
 
-```
+```py
 cd TeleGram
 python3 setup.py -i
 ```
 
 - ធ្វើបច្ចុប្បន្នភាពកម្មវិធី
 
-```
+```py
 python3 setup.py -u
 ```
 
-- លោកអ្នកត្រូវបញ្ចូល api_id,​ api_hash និង លេខទូរសព្ទរបស់លោកអ្នកដើម្បីចាប់ផ្តើមវា ។
+- លោកអ្នកត្រូវបញ្ចូល `api_id`,​ `api_hash` និង លេខទូរសព្ទរបស់លោកអ្នកដើម្បីចាប់ផ្តើមវា ។
 
-```
+```py
 python3 setup.py -c
 ```
 
@@ -63,25 +63,27 @@ python3 scraper.py
 
 - ដើម្បីអ្នកអាចផ្ញើសារទៅអ្នកប្រើប្រាស់ច្រើនអ្នកក្នុងពេលតែមួយ អ្នកត្រូវពិនិត្យមើល file ប្រភេទ csv ។ file នេះជាពត៌មានអ្នកប្រើប្រាស់អ្នកបានទាញយកពី Group or Channel ។ File នេះអ្នកអាចកែឬលុបចេញអ្នកប្រើប្រាស់ណាមួយក៏បានជាមួយកម្មវិធី Microsoft Excel (Open with Excel) ។
 
-```
-python3 smsbot.py [filename]
+```py
+python3 smsbot.py [filename] [text_file]
 ```
 
-ឧទាហរណ៍៖ ផ្ញើអត្ថបទសារទៅ អ្នកប្រើប្រាស់ទាំងអស់ក្នុង `members.csv`
+ឧទាហរណ៍៖ ផ្ញើអត្ថបទសារទៅ អ្នកប្រើប្រាស់ទាំងអស់ក្នុង `members.csv` ជាមួយនឹងសារអត្ថបទក្នុង `text.txt` ។
 
-```
-python3 smsbot.py members.csv
+```py
+python3 smsbot.py members.csv text.txt
 ```
 
 - សម្រាប់លោកអ្នកចង់ផ្ញើសារទៅអ្នកប្រើប្រាស់ជាមួយ file [Video \ Audio \ File] សូមចុចដូចខាងក្រោម
-  ទៅកែកូដនៅក្នុង `chat.py` នៅក្នុង `ជួរទី 62` អ្នកឃើញពាក្យ `file='./[ឈ្មោះឯកសារនោះ]'`
+  ទៅកែកូដនៅក្នុង `chat.py` ជាមួយនឹង file បន្ទាប់ដូចជា `members.csv`, `text.txt` និង​ `file_name.extension` ។
 
+```py
+python3 chat.py members.csv text.txt video.mp4
+or
+python3 chat.py members.csv text.txt audio.mp3
+or
+python3 chat.py members.csv text.txt sakcode.png
 ```
-62:   receiver, message.format(user['name']), file='./sakcode.png')
 
-# អ្នកអាចប្តូរទៅជា ./video.mp4 ឬ ./audio.mp3 ដែលមាន video/audio នៅក្នុង folder ជាមួយគ្នា
-```
+## Contribute to this project
 
-```
-python3 chat.py members.csv
-```
+> Yan Samreach - Web Developer at [Sak Code](https://sakcode.net/) - [GitHub](https://github.com/samreachyan/TeleGram) - [@samreachyan](https://t.me/samreachyan)

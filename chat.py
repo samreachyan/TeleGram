@@ -41,7 +41,18 @@ def send_sms():
     print(gr+"[1] send sms by user ID\n[2] send sms by username ")
     mode = int(input(gr+"Input : "+re))
 
-    message = input(gr+"[+] Enter Your Message : "+re)
+    # message = input(gr+"[+] Enter Your Message : "+re)
+    # get messsage from argv[2]
+    message = sys.argv[2]
+    with open(message, 'r') as f:
+        msg = f.read()
+
+    fileAttach = sys.argv[3]
+    if os.path.isfile(fileAttach):
+        print(gr+"[+] File exists")
+    else:
+        print(re+"[!] File not exists")
+        fileAttach = None
 
     for user in users:
         if mode == 2:
@@ -59,7 +70,7 @@ def send_sms():
 
             # Send Text Message & Send Media Message [Video / Audio / File]
             client.send_message(
-                receiver, message.format(user['name']), file='./sakcode.png')
+                receiver, msg.format(user['name']), file=fileAttach)
 
             print(gr+"[+] Waiting {} seconds".format(SLEEP_TIME))
             time.sleep(SLEEP_TIME)

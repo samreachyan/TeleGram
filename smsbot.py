@@ -41,7 +41,10 @@ def send_sms():
     print(gr+"[1] send sms by user ID\n[2] send sms by username ")
     mode = int(input(gr+"Input : "+re))
 
-    message = input(gr+"[+] Enter Your Message : "+re)
+    # message = input(gr+"[+] Enter Your Message : "+re)
+    fileAttach = sys.argv[2]
+    with open(fileAttach, 'r') as f:
+        message = f.read()
 
     for user in users:
         if mode == 2:
