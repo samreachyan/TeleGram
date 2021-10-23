@@ -53,7 +53,7 @@ python3 setup.py -c
 ```
 
 - ក្រោយពេលលោកអ្នកបានដំឡើងចប់អស់ហើយ លោកអ្នកអាចទាញយកទិន្នន័យអ្នកប្រើប្រាស់ ក្នុង Group ឬ ​Channel បាន។
-  **_ត្រូវចំណាំ៖ សម្រាប់ Group ជាក្រុមណាដែលសមាជិកអាច Chat បានដោយសេរីឬក្រុមណាដែលអ្នកជា admin។ សម្រាប់ Channel អ្នកត្រូវតែជា admin ទើបអាចទាញយកទិន្នន័យអ្នកប្រើប្រាស់បាន។_**
+  **_ត្រូវចំណាំ៖ សម្រាប់ Public Group ជាក្រុមណាដែលសមាជិកអាច Chat បានដោយសេរីឬក្រុមណាដែលអ្នកជា admin។ សម្រាប់ Channel អ្នកត្រូវតែជា admin ទើបអាចទាញយកទិន្នន័យអ្នកប្រើប្រាស់បាន។_**
 
 ```
 python3 scraper.py
@@ -82,6 +82,12 @@ or
 python3 chat.py members.csv text.txt audio.mp3
 or
 python3 chat.py members.csv text.txt sakcode.png
+```
+
+- ដើម្បីបន្ថែមសមាជិកចូលក្នុង `Public Group` ឬ `Channel` ដែលអាចទាញបញ្ជីឈ្មោះអ្នកប្រើប្រាស់ក្នុង `members.csv` ទៅជា Subscriber ឬ Join auto ។
+
+```py
+python3 add2group.py members.csv
 ```
 
 ## Contribute to this project

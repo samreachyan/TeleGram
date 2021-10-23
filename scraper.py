@@ -63,7 +63,7 @@ def main():
     for chat in chats:
         try:
             # if True:
-            if chat.megagroup == True:
+            if True:
                 groups.append(chat)
         except:
             continue
