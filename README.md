@@ -84,6 +84,18 @@ or
 python3 chat.py members.csv text.txt sakcode.png
 ```
 
+- លោកអ្នកអាចផ្ញើសារទៅអ្នកប្រើប្រាស់ជាមួយ file (images video) ច្រើនផងដែរ
+
+```py
+python3 chat.py members.csv text.txt video.mp4 video2.mp4 image1.png image2.png
+```
+
+- លោកអ្នកអាចផ្ញើសារទៅកាន់អ្នកប្រើប្រាស់ តាមរយៈលេខទូរសព្ទ ជាមួយ file [images video] ច្រើនផងដែរ
+
+```py
+python3 chatToPhone.py text.txt video.mp4 video2.mp4 image1.png image2.png
+```
+
 - ដើម្បីបន្ថែមសមាជិកចូលក្នុង `Public Group` ឬ `Channel` ដែលអាចទាញបញ្ជីឈ្មោះអ្នកប្រើប្រាស់ក្នុង `members.csv` ទៅជា Subscriber ឬ Join auto ។
 
 ```py

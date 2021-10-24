@@ -38,7 +38,7 @@ def send_sms():
             user['access_hash'] = int(row[2])
             user['name'] = row[3]
             users.append(user)
-    print(gr+"[1] send sms by user ID\n[2] send sms by username ")
+    print(gr+"[1] send sms by user ID\n[2] send sms by username")
     mode = int(input(gr+"Input : "+re))
 
     # message = input(gr+"[+] Enter Your Message : "+re)
@@ -47,12 +47,24 @@ def send_sms():
     with open(message, 'r') as f:
         msg = f.read()
 
-    fileAttach = sys.argv[3]
-    if os.path.isfile(fileAttach):
+    # fileAttach = sys.argv[3]
+    # get Multiple file from argv[3] to argv[n]
+    files = []
+    for file in sys.argv[3:]:
+        files.append(file)
+
+    # function check multiple file
+    def checkisfile(files):
+        for file in files:
+            if not os.path.isfile(file):
+                return False
+        return True
+
+    if checkisfile(files) == True:
         print(gr+"[+] File exists")
     else:
         print(re+"[!] File not exists")
-        fileAttach = None
+        sys.exit()
 
     for user in users:
         if mode == 2:
@@ -70,7 +82,7 @@ def send_sms():
 
             # Send Text Message & Send Media Message [Video / Audio / File]
             client.send_message(
-                receiver, msg.format(user['name']), file=fileAttach)
+                receiver, msg.format(user['name']), file=files)
 
             print(gr+"[+] Waiting {} seconds".format(SLEEP_TIME))
             time.sleep(SLEEP_TIME)
