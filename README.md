@@ -102,6 +102,12 @@ python3 chatToPhone.py text.txt video.mp4 video2.mp4 image1.png image2.png
 python3 add2group.py members.csv
 ```
 
+- ដើម្បីផ្ញើសារទៅកាន់អ្នកប្រើ Group or Channel ដែរអ្នកជាសមាជិកក្នុងនោះ ជាមួយ អក្សរក្នុង​ឯកសារ text.txt
+
+```py
+python3 pushNotification.py text.txt
+```
+
 ## Contribute to this project
 
 > Yan Samreach - Web Developer at [Sak Code](https://sakcode.net/) - [GitHub](https://github.com/samreachyan/TeleGram) - [@samreachyan](https://t.me/samreachyan)
