@@ -25,14 +25,14 @@ print(f"""
             """)
 
 
-def send_sms():
+async def send_sms():
     # get id group or channel
     chats = []
     last_date = None
     chunk_size = 100
     groups = []
 
-    result = client(GetDialogsRequest(
+    result = await client(GetDialogsRequest(
         offset_date=last_date,
         offset_id=0,
         offset_peer=InputPeerEmpty(),
@@ -64,7 +64,7 @@ def send_sms():
         message = f.read()
 
     try:
-        client.send_message(
+        await client.send_message(
             target_group, message)
         print(gr+"[+] Waiting {} seconds".format(SLEEP_TIME))
         time.sleep(SLEEP_TIME)
@@ -77,7 +77,7 @@ def send_sms():
         print(re+"[!] Error:", e)
         print(re+"[!] Trying to continue...")
 
-    print("Done. Message sent to group: +" + target_group.title)
+    print("Done. Message sent to: " + target_group.title)
     sys.exit()
 
 

@@ -108,6 +108,12 @@ python3 add2group.py members.csv
 python3 pushNotification.py text.txt
 ```
 
+- ដើម្បីបំលែងទិន្នន័យជាតារាងទៅជារូបភាព (png, jpg,...) និង អាចយកទិន្នន័យពី file.csv ឬទាញយកពី Database ណាមួយ៖
+
+```py
+python3 convertPng.py file.csv
+```
+
 ## Contribute to this project
 
 > Yan Samreach - Web Developer at [Sak Code](https://sakcode.net/) - [GitHub](https://github.com/samreachyan/TeleGram) - [@samreachyan](https://t.me/samreachyan)
