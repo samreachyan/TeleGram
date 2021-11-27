@@ -114,6 +114,11 @@ python3 pushNotification.py text.txt
 python3 convertPng.py file.csv
 ```
 
+- ដើម្បីប្រើប្រាស់ Thread Python ផ្ញើសារទៀងទាត់​ជាមួយ `text.txt` និង `mytable.png` ទៅក្នុង `group` ឬ `channel` ៖
+```py
+python3 threading.png
+```
+
 ## Contribute to this project
 
 > Yan Samreach - Web Developer at [Sak Code](https://sakcode.net/) - [GitHub](https://github.com/samreachyan/TeleGram) - [@samreachyan](https://t.me/samreachyan)
