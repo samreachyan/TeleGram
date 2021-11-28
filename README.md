@@ -36,14 +36,8 @@ git clone https://github.com/samreachyan/teleGram.git
 - លោកអ្នកត្រូវដំឡើង Library មួយចំនួនដែលពាក់ព័ន្ធ
 
 ```py
-cd TeleGram
-python3 setup.py -i
-```
-
-- ធ្វើបច្ចុប្បន្នភាពកម្មវិធី
-
-```py
-python3 setup.py -u
+python -m pip install --upgrade pip
+pip install cython telethon requests touch configparser numpy pandas dataframe_image
 ```
 
 - លោកអ្នកត្រូវបញ្ចូល `api_id`,​ `api_hash` និង លេខទូរសព្ទរបស់លោកអ្នកដើម្បីចាប់ផ្តើមវា ។
@@ -115,8 +109,9 @@ python3 convertPng.py file.csv
 ```
 
 - ដើម្បីប្រើប្រាស់ Thread Python ផ្ញើសារទៀងទាត់​ជាមួយ `text.txt` និង `mytable.png` ទៅក្នុង `group` ឬ `channel` ៖
+
 ```py
-python3 threading.png
+python3 threadTelegram.py
 ```
 
 ## Contribute to this project
