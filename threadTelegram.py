@@ -114,43 +114,57 @@ def getTargetGroup(client):
     return groups[int(g_index)]
 
 
-if __name__ == "__main__":
+def readText(file):
+    '''
+        read text file
+        return list of text
+    '''
+    with open(file, 'r', encoding="utf8") as f:
+        msg = f.read()
+    return msg
 
+
+if __name__ == "__main__":
+    # config login Telegram API
     client = config()
 
-    # print(target_group)
+    # pick group or channel
     target_group = getTargetGroup(client)
 
-    # Read message from file.txt
-
-    message = "text.txt"
-    with open(message, 'r', encoding="utf8") as f:
-        msg = f.read()
-
-    t1 = Thread(target=tasking)
-    t1.start()
-
+    print("Running")
     while True:
         try:
-            # Connect DB function
-
-            # Save data to file.csv
-
-            # Convert to PNG
-            fileImage = convertToPng("members.csv")
-
-            # Send to target_group
             now = datetime.datetime.now()
-            print("Current date and time : ")
-            print(now.strftime("%Y-%m-%d %H:%M:%S"))
-            client.send_message(
-                target_group, msg, file=fileImage)
-            time.sleep(60 * 2)
+            print(now.strftime("%Y-%m-%d %H:%M:%S --"))
+            time.sleep(1)
+
+            # check time is 11:00 am
+            if now.strftime("%H:%M:%S") == "11:00:00":
+                # delete file.png
+                os.remove("mytable.png")
+                # create Thread convert to PNG
+                t1 = Thread(target=convertToPng, args=("members.csv",))
+                t1.start()
+                t1.join()
+
+                print("Current date and time : ")
+                print(now.strftime("%Y-%m-%d %H:%M:%S"))
+
+                # get messgge from date time
+                msg = "Reported at " + \
+                    now.strftime("%d/%m/%Y %H:%M:%S") + \
+                    "\nThis is Telegram API"
+
+                client.send_message(
+                    target_group, msg, file="mytable.png")
+
+                print("Sleeping for 23h and 59min!")
+                time.sleep(60 * 60 * 24 - 60)
+
         except KeyboardInterrupt:
-            print("Stopping Thread")
+            print("Stopping")
             break
 
-    # finish and disconnect to Telegram
-    t1.join()
+    # finish and disconnect Telegram API
     client.disconnect()
-    print("Stopped Thread python")
+    print("Stopped running")
