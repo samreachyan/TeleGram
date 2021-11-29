@@ -11,6 +11,7 @@ import datetime
 import csv
 import pandas as pd
 import dataframe_image as dfi
+import mysql.connector
 
 
 re = "\033[1;31m"
@@ -124,6 +125,17 @@ def readText(file):
     return msg
 
 
+def configDB(host, user, password, database):
+    mydb = mysql.connector.connect(
+        host=host, user=user, password=password, database=database).cursor()
+
+    mydb.execute(
+        "SELECT name, number, created_at FROM `services` JOIN users ON users.service_id = services.id")
+
+    result = mydb.fetchall()
+    return result
+
+
 if __name__ == "__main__":
     # config login Telegram API
     client = config()
@@ -139,11 +151,24 @@ if __name__ == "__main__":
             time.sleep(1)
 
             # check time is 11:00 am
-            if now.strftime("%H:%M:%S") == "11:00:00":
+            if now.strftime("%H:%M:%S") == "17:28:00":
                 # delete file.png
-                os.remove("mytable.png")
+                # os.remove("mytable.png")
+
+                data = configDB(host="localhost", user="root",
+                                password="", database="telegram")
+
+                with open("mydata.csv", "w", encoding="UTF-8") as f:
+                    writer = csv.writer(f, delimiter=",", lineterminator="\n")
+                    writer.writerow(["Name", "N-1", "N-3",
+                                    "N-7", "Total", "Date Time"])
+
+                    for row in data:
+                        writer.writerow([row[0], row[1], row[1] * 3, row[1]
+                                        * 7, row[1] * 30, row[2]])
+
                 # create Thread convert to PNG
-                t1 = Thread(target=convertToPng, args=("members.csv",))
+                t1 = Thread(target=convertToPng, args=("mydata.csv",))
                 t1.start()
                 t1.join()
 
