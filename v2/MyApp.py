@@ -3,6 +3,7 @@ from telethon.sync import TelegramClient
 from telethon.tl.functions.messages import GetDialogsRequest
 from telethon.tl.types import InputPeerEmpty
 from threading import Thread
+from datetime import date
 import configparser
 import os
 import sys
@@ -51,7 +52,6 @@ def config(cfg="config.data"):
         api_id = cpass['cred']['id']
         api_hash = cpass['cred']['hash']
         phone = cpass['cred']['phone']
-        status = cpass['cred']['status']
 
     except KeyError:
         print("[!] run python3 setup.py first !!\n")
@@ -97,33 +97,33 @@ def getTargetGroup(client):
     return groups[int(g_index)]
 
 
-def readText(file):
-    '''
-        read text file
-        return list of text
-    '''
-    with open(file, 'r', encoding="utf8") as f:
-        msg = f.read()
-    return msg
+def processWorker(client, target_group):
+    print("Calling processWorker", target_group.title)
 
+    # fake object data list
+    data = []
+    for i in range(0, 10):
+        data.append({"id": i, "name": "name" + str(i), "age": i})
 
-def configDB(host, user, password, database):
-    mydb = mysql.connector.connect(
-        host=host, user=user, password=password, database=database).cursor()
+    # create dataframe
+    df = pd.DataFrame(data, columns=["id", "name", "age"])
+    df_styled = df.style.background_gradient()
 
-    mydb.execute(
-        "SELECT name, number, created_at FROM `services` JOIN users ON users.service_id = services.id")
+    fileName = date.today().strftime("%b-%d-%Y") + ".png"
 
-    result = mydb.fetchall()
-    return result
+    # export to png
+    dfi.export(df_styled, fileName)
 
+    # get messgge from date time
+    now = datetime.datetime.now()
+    msg = "Reported at " + now.strftime("%d/%m/%Y %H:%M:%S") + \
+        "\nThis is Telegram API"
 
-def updateStatus(status):
-    cpass = configparser.RawConfigParser()
-    # set status = 0 not downloads
-    cpass.set('cred', 'status', status)
-    with open('config.data', 'wb') as configfile:
-        cpass.write(configfile)
+    # // TODO : Error cannot send message
+    # send message to group or channel
+    # client.send_message(target_group, msg, file=fileName)
+
+    print("Sent ", now.strftime("%d/%m/%Y %H:%M:%S"))
 
 
 class WorkingThread(Thread):
@@ -131,67 +131,40 @@ class WorkingThread(Thread):
         function working thread
     '''
 
-    def __init__(self, target_group, status):
+    def __init__(self):
         Thread.__init__(self)
-        self.running = True
-        self.target_group = target_group
-        self.status = status
+        self.client = config()
+        self.target_group = getTargetGroup(self.client)
 
     def run(self):
-        if self.running and self.status:
-            # Connect DB save CSV
-            # Convert to PNG
-            # Send sms
+        # infinite loop run forever
+        while True:
+            try:
+                # calling process function
+                self.love()  # call in class
+                # should call method in class
+                processWorker(self.client, self.target_group)
 
-            # sleep 23h50mn
-            print('Working...' + self.target_group.title)
-            self.changeStatus(False)
+                # sleep 23h50mn
+                time.sleep(60 * 5)  # Thread sleep 5 minute
+            except KeyboardInterrupt:
+                print("\n[!] Exiting..")
+                sys.exit(1)
+            except:
+                print("Thread processing is error")
+                sys.exit(1)
 
-            time.sleep(1)
-
-    def stop(self):
-        self.running = False
-
-    def changeStatus(self, status):
-        self.status = status  # update status to config.data
-
-    def getStatus(self):
-        return self.status
+    def love(self):
+        return print("I love you", self.target_group.title)
 
 
 if __name__ == '__main__':
-    # config.data to login Telegram API
-    client = config()
-    # get index of target group or channel
-    target_group = getTargetGroup(client)
+    print("Main running")
+    try:
+        # create a thread
+        thread = WorkingThread()
+        # start the thread
+        thread.start()
 
-    print("Running...")
-    status = True
-    while True:
-        try:
-            # create a thread
-            thread = WorkingThread(target_group, status)
-            # start the thread
-            thread.start()
-
-            # do something else
-            # time.sleep(60*60*24)
-            time.sleep(30)
-
-            # stop the thread
-            thread.stop()
-            thread.changeStatus(True)  # task done and update status
-            status = thread.getStatus()  # get current status
-
-        except KeyboardInterrupt:
-            thread.join()  # wait thread get finished and then stop
-            thread.stop()  # stop thread
-            print("Stopping by key")
-            break
-        except:
-            thread.join()
-            thread.stop()
-            print("Stopping by error")
-            break
-    client.disconnect()
-    print("Stopped running")
+    except:
+        print("Error to start thread")
