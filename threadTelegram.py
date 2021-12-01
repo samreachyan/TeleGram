@@ -1,5 +1,6 @@
 #!/bin/env python3
 import asyncio
+from logging import logProcesses
 from time import perf_counter
 from telethon.sync import TelegramClient
 from telethon.tl.functions.messages import GetDialogsRequest
@@ -126,11 +127,12 @@ if __name__ == "__main__":
 
     # start tasking
     loop = asyncio.get_event_loop()
-    loop.create_task(Task(client, target_group, 60))
+    loop.create_task(Task(client, target_group, 5 * 60))  # delay 5 minutes
     try:
         loop.run_forever()
         # loop.run_until_complete(asyncio.sleep(5))
     except:
         print('[!] Force to stop task')
+        loop.close()
 
     print("[+] Done")
