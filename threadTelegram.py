@@ -1,5 +1,6 @@
 #!/bin/env python3
 import asyncio
+from time import perf_counter
 from telethon.sync import TelegramClient
 from telethon.tl.functions.messages import GetDialogsRequest
 from telethon.tl.types import InputPeerEmpty
@@ -80,6 +81,7 @@ def configDB(host, user, password, database):
 
 async def Task(client, target_group, delay):
     while True:
+        start = perf_counter()
         print("Called processWorker", target_group.title)
 
         # fake object data list
@@ -110,9 +112,11 @@ async def Task(client, target_group, delay):
         except:
             print("[!] Error send message to group or channel")
 
+        end = perf_counter() - start
+        # print("Processed in {} seconds".format(end))
         print("Done! Sent to ", target_group.title,
               now.strftime("%d/%m/%Y %H:%M:%S"))
-        await asyncio.sleep(delay)
+        await asyncio.sleep(delay - end)
 
 
 if __name__ == "__main__":
