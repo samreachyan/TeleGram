@@ -5,68 +5,59 @@ from time import perf_counter
 from telethon.sync import TelegramClient
 from telethon.tl.functions.messages import GetDialogsRequest
 from telethon.tl.types import InputPeerEmpty
-from threading import Thread
 import datetime
 import configparser
-import sys
 import pandas as pd
 import dataframe_image as dfi
 import mysql.connector
 
-target_group = None
+
+try:
+    cpass = configparser.RawConfigParser()
+    cpass.read('config.data')
+    api_id = cpass['cred']['id']
+    api_hash = cpass['cred']['hash']
+    phone = cpass['cred']['phone']
+except KeyError:
+    print("[!] run python3 setup.py first !!\n")
 
 
-def config():
-    '''get index of target group or channel'''
-    try:
-        cpass = configparser.RawConfigParser()
-        cpass.read('config.data')
-        api_id = cpass['cred']['id']
-        api_hash = cpass['cred']['hash']
-        phone = cpass['cred']['phone']
-    except KeyError:
-        print("[!] run python3 setup.py first !!\n")
-        sys.exit(1)
-
-    client = TelegramClient(phone, api_id, api_hash)
-    return client
-
-
-def getTargetGroup(client):
+def getTargetGroup():
     '''get index of target group or channel'''
     # client = config()
-    client.start()
-    # get id group or channel
-    chats = []
-    last_date = None
-    chunk_size = 100
-    groups = []
+    with TelegramClient(phone, api_id, api_hash) as client:
+        client.start()
+        # get id group or channel
+        chats = []
+        last_date = None
+        chunk_size = 100
+        groups = []
 
-    result = client(GetDialogsRequest(
-        offset_date=last_date,
-        offset_id=0,
-        offset_peer=InputPeerEmpty(),
-        limit=chunk_size,
-        hash=0
-    ))
-    chats.extend(result.chats)
+        result = client(GetDialogsRequest(
+            offset_date=last_date,
+            offset_id=0,
+            offset_peer=InputPeerEmpty(),
+            limit=chunk_size,
+            hash=0
+        ))
+        chats.extend(result.chats)
 
-    for chat in chats:
-        try:
-            if True:
-                groups.append(chat)
-        except:
-            continue
+        for chat in chats:
+            try:
+                if True:
+                    groups.append(chat)
+            except:
+                continue
 
-    # print group or channels
-    i = 0
-    for g in groups:
-        print('['+str(i)+'] - ' + g.title)
-        i += 1
+        # print group or channels
+        i = 0
+        for g in groups:
+            print('['+str(i)+'] - ' + g.title)
+            i += 1
 
-    print('')
-    g_index = input("[+] Enter a Number : ")
-    return groups[int(g_index)]
+        print('')
+        g_index = input("[+] Enter a Number : ")
+        return groups[int(g_index)]
 
 
 def configDB(host, user, password, database):
@@ -80,7 +71,7 @@ def configDB(host, user, password, database):
     return result
 
 
-async def Task(client, target_group, delay):
+async def Task(target_group, delay):
     while True:
         start = perf_counter()
         print("Called processWorker", target_group.title)
@@ -94,6 +85,7 @@ async def Task(client, target_group, delay):
         df = pd.DataFrame(data, columns=["id", "name", "age"])
         df_styled = df.style.background_gradient()
 
+        # rename fileName by DateTime
         now = datetime.datetime.now()
         fileName = now.strftime("%b-%d-%Y") + ".png"
 
@@ -104,35 +96,40 @@ async def Task(client, target_group, delay):
         msg = "Reported at " + now.strftime("%d/%m/%Y %H:%M:%S") + \
             "\nThis is Telegram API"
 
-        # // TODO: Problem send message
+        # TODO: Problem send message
         # send message to group or channel
-        try:
-            await client.connect()
-            await client.send_file(target_group, fileName, caption=msg)
-            await client.disconnect()
-        except:
-            print("[!] Error send message to group or channel")
+        async with TelegramClient(phone, api_id, api_hash) as client:
+            try:
+                await client.connect()
+                await client.send_file(target_group, fileName, caption=msg)
+                await client.disconnect()
+                print("Done! Sent to ", target_group.title,
+                      now.strftime("%d/%m/%Y %H:%M:%S"))
+            except:
+                print("[!] Error send message to group or channel")
 
         end = perf_counter() - start
         # print("Processed in {} seconds".format(end))
-        print("Done! Sent to ", target_group.title,
-              now.strftime("%d/%m/%Y %H:%M:%S"))
         await asyncio.sleep(delay - end)
 
 
 if __name__ == "__main__":
-    # config connection telegram
-    client = config()
-    target_group = getTargetGroup(client)
+    # connection telegram get target group or channel
+    target_group = getTargetGroup()
 
     # start tasking
-    loop = asyncio.get_event_loop()
-    loop.create_task(Task(client, target_group, 5 * 60))  # delay 5 minutes
+    # loop = asyncio.get_event_loop()
+    loop = asyncio.new_event_loop()
+    asyncio.set_event_loop(loop)
+    loop.create_task(Task(target_group, 30))  # delay 5 minutes
     try:
         loop.run_forever()
         # loop.run_until_complete(asyncio.sleep(5))
     except:
         print('[!] Force to stop task')
+        # check and cancel task is running
+        for task in asyncio.all_tasks(loop):
+            task.cancel()
         loop.close()
 
     print("[+] Done")
